@@ -14,11 +14,14 @@ export const setupServer = () => {
 				return schema.todos.create(payload);
 			});
 			this.post("/api/updateTodo", (schema, request) => {
-				const payload = JSON.parse(request.requestBody);
+				const id = JSON.parse(request.requestBody);
 
-				const currentTodo = schema.todos.find(payload.id);
+				const currentTodo = schema.todos.find(id);
 
-				currentTodo.update(payload);
+				currentTodo.update({
+					completed: !currentTodo.completed,
+				});
+				return currentTodo;
 			});
 		},
 	});
